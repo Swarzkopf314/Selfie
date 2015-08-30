@@ -1,6 +1,6 @@
-require "selfie/version"
+require "selfie_chain/version"
 
-class Selfie < BasicObject
+class SelfieChain < BasicObject
 
 	def initialize(subject)
 		@subject = subject
@@ -23,7 +23,7 @@ class Object
 		if block_given?
 			yield(self) ? self : other
 		else
-			Selfie.new(self)
+			SelfieChain.new(self)
 		end
 	end
 end

@@ -1,13 +1,13 @@
-# Selfie
+# SelfieChain
 
-Now every object can take a selfie. Selfie is an attempt to one-shot-complement ruby's ternary operator, null guard and somehow extend Rails' :try method (but you don't need Rails). I realised that there are use cases, that the above mentioned tools fail to address in sufficently elegant way. Look below for some explanatory examples and start taking selfies :)
+Now every object can take a selfie. SelfieChain is an attempt to one-shot-complement ruby's ternary operator, null guard and somehow extend Rails' :try method (but you don't need Rails). I realised that there are use cases, that the above mentioned tools fail to address in sufficently elegant way. Look below for some explanatory examples and start taking selfies :)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'selfie'
+gem 'selfie_chain'
 ```
 
 And then execute:
@@ -16,11 +16,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install selfie
+    $ gem install selfie_chain
 
 ## Usage
 
-Selfie adds a :selfie method to Object class (as well as a Selfie < BasicObject class). Calling it with or without a block changes it's behavior as follows:
+SelfieChain adds a :selfie method to Object class (as well as a SelfieChain < BasicObject class). Calling it with or without a block changes it's behavior as follows:
 
 ####1. With block (and one optional argument that defaults to nil). 
 
@@ -44,7 +44,7 @@ This let's you stop worrying about checking for possible nil every time you chai
 	h[:a][:b][:c] = {"d" => "14"}
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie => 14
 
-This time selfie returns Selfie.new(self) - instance of Selfie < BasicObject class that wraps the receiver. This wrapper delegates every method call (except for :share_selfie and those defined by BasicObject)
+This time selfie returns SelfieChain.new(self) - instance of SelfieChain < BasicObject class that wraps the receiver. This wrapper delegates every method call (except for :share_selfie and those defined by BasicObject)
 to the wrapped object - and swaps it with the result unless the wrapped object doesn't respond_to? the method, in which case the wrapper stores nil. NOTE, that once the wrapped object hits nil, it always stays nil (this conforms to the Rails' :try method mechanics). You can end this method calling chain party and retrieve the result by calling :share_selfie.
 
 ________________________________
@@ -58,7 +58,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/swarzkopf314/selfie.
+Bug reports and pull requests are welcome on GitHub at https://github.com/swarzkopf314/selfie_chain.
 
 ## License
 

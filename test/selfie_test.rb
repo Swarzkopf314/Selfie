@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class SelfieTest < Minitest::Test
+class SelfieChainTest < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::Selfie::VERSION
+    refute_nil ::SelfieChain::VERSION
   end
 
   def test_on_hash
