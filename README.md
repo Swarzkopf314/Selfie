@@ -22,27 +22,27 @@ Or install it yourself as:
 
 Selfie adds a :selfie method to Object class (as well as a Selfie < BasicObject class). Calling it with or without a block changes it's behavior as follows:
 
-1. With block (and one optional argument that defaults to nil). 
+####1. With block (and one optional argument that defaults to nil). 
 
 Passes the receiver to the block. If the block returns true, then the whole method returns the receiver; otherwise it returns the argument:
 
-h = {a: {b: {}}} (hashes make nice examples)
+	h = {a: {b: {}}} (hashes make nice examples)
+	
+	h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => -1 
+	
+	h[:a][:b] = {c: "14"}
+	h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => 14
 
-h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => -1 
+You don't have to repeat the long method call chain, selfie let's you replace this expression with mere 'x' inside the block (that's where the name comes from: "self-if", transmutes into "selfie" quite easily)
 
-h[:a][:b] = {c: "14"};
-h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => 14
-
-You don't have to repeat the long method call chain, selfie let's you replace this expression with mere 'x' inside the block (that's where the name comes from "self-if", transmutes into "selfie" quite easily)
-
-2. Without block (no arguments needed).
+####2. Without block (no arguments needed).
 
 This let's you stop worrying about checking for possible nil every time you chain another method*:
 
-h.selfie[:a][:b][:c]["d"].to_i.share_selfie => nil
+	h.selfie[:a][:b][:c]["d"].to_i.share_selfie => nil
 
-h[:a][:b][:c] = {"d" => "14"};
-h.selfie[:a][:b][:c]["d"].to_i.share_selfie => 14
+	h[:a][:b][:c] = {"d" => "14"}
+	h.selfie[:a][:b][:c]["d"].to_i.share_selfie => 14
 
 This time selfie returns Selfie.new(self) - instance of Selfie < BasicObject class that wraps the receiver. This wrapper delegates every method call (except for :share_selfie and those defined by BasicObject)
 to the wrapped object - and swaps it with the result unless the wrapped object doesn't respond_to? the method, in which case the wrapper stores nil. NOTE, that once the wrapped object hits nil, it always stays nil (this conforms to the Rails' :try method mechanics). You can end this method calling chain party and retrieve the result by calling :share_selfie.
