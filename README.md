@@ -30,10 +30,10 @@ h = {a: {b: {}}} (hashes make nice examples)
 
 h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => -1 
 
-h[:a][:b] = {c: "14"}
+h[:a][:b] = {c: "14"};
 h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => 14
 
-- you don't have to repeat the long method call chain, selfie let's you replace this expression with mere 'x' inside the block (that's where the name comes from "self-if", transmutes into "selfie" quite easily)
+You don't have to repeat the long method call chain, selfie let's you replace this expression with mere 'x' inside the block (that's where the name comes from "self-if", transmutes into "selfie" quite easily)
 
 2. Without block (no arguments needed).
 
@@ -41,15 +41,14 @@ This let's you stop worrying about checking for possible nil every time you chai
 
 h.selfie[:a][:b][:c]["d"].to_i.share_selfie => nil
 
-h[:a][:b][:c] = {"d" => "14"}
+h[:a][:b][:c] = {"d" => "14"};
 h.selfie[:a][:b][:c]["d"].to_i.share_selfie => 14
 
 This time selfie returns Selfie.new(self) - instance of Selfie < BasicObject class that wraps the receiver. This wrapper delegates every method call (except for :share_selfie and those defined by BasicObject)
 to the wrapped object - and swaps it with the result unless the wrapped object doesn't respond_to? the method, in which case the wrapper stores nil. NOTE, that once the wrapped object hits nil, it always stays nil (this conforms to the Rails' :try method mechanics). You can end this method calling chain party and retrieve the result by calling :share_selfie.
 
 ________________________________
-* Here I use string "d" instead of symbol :d to avoid known "no implicit conversion of Symbol into Integer" exception
-raised by calling "14"[:d].
+* Here we use string "d" instead of symbol :d to avoid known "no implicit conversion of Symbol into Integer" exception raised by calling "14"[:d].
 
 ## Development
 
