@@ -1,6 +1,6 @@
 # SelfieChain
 
-Now every object can take a selfie. SelfieChain is an attempt to one-shot-complement ruby's ternary operator, null guard and somehow extend Rails' :try method (but you don't need Rails). I realised that there are use cases, that the above mentioned tools fail to address in sufficently elegant way. Look below for some explanatory examples and start taking selfies :)
+Now every object can take a selfie. SelfieChain is an attempt to complement ruby's ternary operator, null guard and somehow extend Rails' :try method (but you don't need Rails), all in one-shot. I realised that there are use cases, that the above mentioned tools fail to address in sufficently elegant way. Look below for some explanatory examples and start taking selfies :)
 
 ## Installation
 
