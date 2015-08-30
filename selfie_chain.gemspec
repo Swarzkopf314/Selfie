@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Maciej Satkiewicz"]
   spec.email         = ["msatkiewicz@gmail.com"]
 
-  # spec.summary       = %q{Adds Object#selfie (and SelfieChain < BasicObject) to complement ternary operator, null guard and Rails' :try method at once}
+  spec.summary       = %q{Adds Object#selfie (and SelfieChain < BasicObject) to complement ternary operator, null guard and Rails' :try method at once}
   spec.description   = %q{Complements ternary operator, null guard and Rails' :try method by adding simple Object#selfie and SelfieChain < BasicObject}
   spec.homepage      = "https://github.com/swarzkopf314/selfie_chain"
   spec.license       = "MIT"
