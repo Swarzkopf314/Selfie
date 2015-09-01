@@ -1,4 +1,4 @@
-module SelfieChain
-  VERSION = "1.1.0"
+class SelfieChain < BasicObject
+  VERSION = "1.0.1"
 end
 	
