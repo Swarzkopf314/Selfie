@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-SelfieChain adds a :selfie method to Object class (as well as a SelfieChain < BasicObject class). Calling it with or without a block changes it's behavior as follows:
+SelfieChain adds a :selfie method to Object class (as well as a SelfieChain:Wrapper < BasicObject class). Calling it with or without a block changes it's behavior as follows:
 
 ####1. With block (and one optional argument that defaults to nil). 
 
@@ -47,8 +47,23 @@ This let's you stop worrying about checking for possible nil every time you chai
 This time selfie returns SelfieChain.new(self) - instance of SelfieChain < BasicObject class that wraps the receiver. This wrapper delegates every method call (except for :share_selfie and those defined by BasicObject)
 to the wrapped object - and swaps it with the result unless the wrapped object doesn't respond_to? the method, in which case the wrapper stores nil. NOTE, that once the wrapped object hits nil, it always stays nil (this conforms to the Rails' :try method mechanics). You can end this method calling chain party and retrieve the result by calling :share_selfie.
 
-________________________________
+####3. Share_selfie with block (from v.1.1.0)
+
+Now you can pass a block to share selfie:
+
+	h[:a][:b][:c] = {"d" => "14"}
+	h.selfie[:a][:b][:c]["d"].to_i.share_selfie(-1) {|x| false} => -1
+	
+It works just like (...).share_selfie.selfie(-1) {|x| false} with the only exception, that when share_selfie is to yield nil, it still yields nil no matter what the given block evaluates to:
+
+	h[:a][:b] = {c: "14"}
+	h.selfie[:a][:b][:c]["d"].to_i.share_selfie(-1) {|x| false} => nil
+	h.selfie[:a][:b][:c]["d"].to_i.share_selfie.selfie(-1) {|x| false} => -1
+
+
+----------------------------
 * Here we use string "d" instead of symbol :d to avoid known "no implicit conversion of Symbol into Integer" exception raised by calling "14"[:d].
+
 
 ## Development
 
