@@ -54,7 +54,7 @@ Now you can pass a block to share selfie:
 	h[:a][:b][:c] = {"d" => "14"}
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie(-1) {|x| false} => -1
 	
-It works just like (...).share_selfie.selfie(-1) {|x| false} with the only exception, that when share_selfie is to yield nil, it still yields nil no matter what the given block evaluates to:
+It works just like (...).share_selfie.selfie(-1) {|x| false} with the only exception, that when share_selfie is to yield nil, it still yields nil no matter what the given block would evaluate to (it's not called at all):
 
 	h[:a][:b] = {c: "14"}
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie(-1) {|x| false} => nil
