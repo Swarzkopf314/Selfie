@@ -1,5 +1,19 @@
 # SelfieChain
 
+NOTE: It was my first gem, but now I know that there are much better alternatives. You can just use any sort of Maybe-like gem; and for hash it's even better to use Hash#dig starting from Ruby 2.3 (or implement it yourself:
+
+```ruby
+Hash.class_eval do
+	def dig(*keys)
+ 		return self if keys.blank?
+ 
+ 		self[keys.shift].try(:dig, *keys)
+ 	end
+end unless {}.respond_to?(:dig) # already implemented in Ruby 2.3
+```
+
+)
+
 Now every object can take a selfie. SelfieChain is an attempt to complement ruby's ternary operator, null guard and somehow extend Rails' :try method (but you don't need Rails), all in one-shot. I realised that there are use cases, that the above mentioned tools fail to address in sufficently elegant way. Look below for some explanatory examples and start taking selfies :)
 
 ## Installation
@@ -26,12 +40,14 @@ SelfieChain adds a :selfie method to Object class (as well as a SelfieChain:Wrap
 
 Passes the receiver to the block. If the block returns true, then the whole method returns the receiver; otherwise it returns the argument:
 
+```ruby
 	h = {a: {b: {}}} (hashes make nice examples)
 	
 	h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => -1 
 	
 	h[:a][:b] = {c: "14"}
 	h[:a][:b][:c].to_i.selfie(-1) {|x| x > 0} => 14
+```
 
 You don't have to repeat the long method call chain, selfie let's you replace this expression with mere 'x' inside the block (that's where the name comes from: "self-if", transmutes into "selfie" quite easily)
 
@@ -39,10 +55,13 @@ You don't have to repeat the long method call chain, selfie let's you replace th
 
 This let's you stop worrying about checking for possible nil every time you chain another method*:
 
+```ruby
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie => nil
 
 	h[:a][:b][:c] = {"d" => "14"}
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie => 14
+```
+
 
 This time selfie returns SelfieChain.new(self) - instance of SelfieChain < BasicObject class that wraps the receiver. This wrapper delegates every method call (except for :share_selfie and those defined by BasicObject)
 to the wrapped object - and swaps it with the result unless the wrapped object doesn't respond_to? the method, in which case the wrapper stores nil. NOTE, that once the wrapped object hits nil, it always stays nil (this conforms to the Rails' :try method mechanics). You can end this method calling chain party and retrieve the result by calling :share_selfie.
@@ -51,15 +70,18 @@ to the wrapped object - and swaps it with the result unless the wrapped object d
 
 Now you can pass a block to share selfie:
 
+```ruby
 	h[:a][:b][:c] = {"d" => "14"}
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie(-1) {|x| false} => -1
-	
+```
+
 It works just like (...).share_selfie.selfie(-1) {|x| false} with the only exception, that when share_selfie is to yield nil, it still yields nil no matter what the given block would evaluate to (it's not called at all):
 
+```ruby
 	h[:a][:b] = {c: "14"}
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie(-1) {|x| false} => nil
 	h.selfie[:a][:b][:c]["d"].to_i.share_selfie.selfie(-1) {|x| false} => -1
-
+```
 
 ----------------------------
 * Here we use string "d" instead of symbol :d to avoid known "no implicit conversion of Symbol into Integer" exception raised by calling "14"[:d].
