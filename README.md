@@ -9,7 +9,7 @@ Hash.class_eval do
 
  		ret = self[keys.shift]
 
- 		ret.nil? ? ret : ret.dig(*keys)
+ 		ret.nil? || keys.empty? ? ret : ret.dig(*keys)
  	end
 end unless {}.respond_to?(:dig) # already implemented in Ruby 2.3
 ```
