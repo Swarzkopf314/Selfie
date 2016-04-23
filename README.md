@@ -5,9 +5,11 @@ NOTE: It was my first gem, but now I know that there are much better alternative
 ```ruby
 Hash.class_eval do
 	def dig(*keys)
- 		return self if keys.blank?
- 
- 		self[keys.shift].try(:dig, *keys)
+ 		return self if keys.empty?
+
+ 		ret = self[keys.shift]
+
+ 		ret.nil? ? ret : ret.dig(*keys)
  	end
 end unless {}.respond_to?(:dig) # already implemented in Ruby 2.3
 ```
